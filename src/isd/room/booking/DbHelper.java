@@ -18,7 +18,7 @@ public final class DbHelper {
     private static final String URL = "jdbc:mysql://localhost:3306/room_booking";
     private static final String USERNAME = "root";
     private static final String PASSWORD = "qwerty";
-    
+    private PreparedStatement checkUserExistence;
     public DbHelper() {
         connect();
     }
@@ -33,5 +33,30 @@ public final class DbHelper {
             System.out.println("Error in connecting to MySQL server!");
             Logger.getLogger(DbHelper.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        
+    }
+    
+    public boolean userExists(String userid, String password_in) throws SQLException{
+        ResultSet mResultSet = null;
+        checkUserExistence = conn.prepareStatement(
+                "SELECT * FROM user WHERE uid = ? OR password= ?");
+        try {
+            checkUserExistence.setString(1, userid);
+            checkUserExistence.setString(2, password_in);
+            mResultSet = checkUserExistence.executeQuery();
+            if (mResultSet.next()) {
+                return true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DbHelper.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                mResultSet.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(DbHelper.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return false;
     }
 }
