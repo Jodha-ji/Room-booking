@@ -5,19 +5,50 @@
  */
 package isd.room.booking;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author user
  */
 public class StudentWelcome extends javax.swing.JFrame {
-
+    private DbHelper db;
+    private User user;
+    
     /**
      * Creates new form StudentWelcome
      */
     public StudentWelcome() {
         initComponents();
     }
+    
+    public StudentWelcome(User u) throws SQLException {
+        initComponents();
+        this.user = u;
+        db = new DbHelper();
+        showBookings();
+    }
 
+    private void showBookings() throws SQLException {
+        DefaultTableModel model = (DefaultTableModel) bookings.getModel();
+        
+        try {
+            ResultSet rs = db.getBookings(user.getUid());
+            
+            while(rs.next()) {
+                model.addRow(new Object[]{rs.getString("name"), rs.getString("date"), rs.getString("from_time") + " - " + rs.getString("to_time")});
+            }
+        }
+        catch (SQLException ex) {
+            Logger.getLogger(DbHelper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -28,14 +59,14 @@ public class StudentWelcome extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        bookings = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        bookings.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -46,7 +77,7 @@ public class StudentWelcome extends javax.swing.JFrame {
                 "Room name", "Date", "Time "
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(bookings);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
         jLabel2.setText("My Bookings");
@@ -139,10 +170,10 @@ public class StudentWelcome extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable bookings;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }

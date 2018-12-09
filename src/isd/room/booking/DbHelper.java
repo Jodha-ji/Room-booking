@@ -21,6 +21,7 @@ public final class DbHelper {
     private static final String USERNAME = "root";
     private static final String PASSWORD = "qwerty";
     private Statement checkUserExistence;
+    private Statement getBookingList;
     
     public DbHelper() {
         connect();
@@ -65,5 +66,21 @@ public final class DbHelper {
         
         return user;
     }
+    
+    public ResultSet getBookings(String uid) throws SQLException {
+        ResultSet rs = null;
+        getBookingList = conn.createStatement();
+        String query = "select name, date, from_time, to_time from room, request "
+                + "WHERE room.room_id = request.room_id and uid ='" + uid + "'";
+        
+        try {
+            rs = getBookingList.executeQuery(query);
+        }
+        catch (SQLException ex) {
+            Logger.getLogger(DbHelper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return rs;
+    } 
     
 }

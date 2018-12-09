@@ -123,7 +123,7 @@ public class LogIn extends javax.swing.JFrame {
             
             if(user != null) {
                 if (user.getLevel() == 0) {
-                    StudentWelcome st = new StudentWelcome();
+                    StudentWelcome st = new StudentWelcome(user);
                     st.setVisible(true);
                 }
                 else {
