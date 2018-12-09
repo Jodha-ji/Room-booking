@@ -127,7 +127,7 @@ public class LogIn extends javax.swing.JFrame {
                     st.setVisible(true);
                 }
                 else {
-                    AdminWelcome ad = new AdminWelcome();
+                    AdminWelcome ad = new AdminWelcome(user);
                     ad.setVisible(true);
                 }
             

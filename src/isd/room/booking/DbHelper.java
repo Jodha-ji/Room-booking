@@ -20,8 +20,10 @@ public final class DbHelper {
     private static final String URL = "jdbc:mysql://localhost:3306/room_booking";
     private static final String USERNAME = "root";
     private static final String PASSWORD = "qwerty";
+    
     private Statement checkUserExistence;
     private Statement getBookingList;
+    private Statement getRoomList;
     
     public DbHelper() {
         connect();
@@ -81,6 +83,20 @@ public final class DbHelper {
         }
         
         return rs;
-    } 
+    }
     
+    public ResultSet getRooms() throws SQLException {
+        ResultSet rs = null;
+        getRoomList = conn.createStatement();
+        String query = "select * FROM room";
+        
+        try {
+            rs = getRoomList.executeQuery(query);
+        }
+        catch (SQLException ex) {
+            Logger.getLogger(DbHelper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return rs;
+    }
 }

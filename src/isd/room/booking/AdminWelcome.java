@@ -5,19 +5,48 @@
  */
 package isd.room.booking;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author user
  */
 public class AdminWelcome extends javax.swing.JFrame {
-
+    private DbHelper db;
+    private User user;
+    
     /**
      * Creates new form AdminWelcome
      */
     public AdminWelcome() {
         initComponents();
     }
-
+    
+    public AdminWelcome(User u) throws SQLException {
+        initComponents();
+        this.user = u;
+        db = new DbHelper();
+        showRooms();
+    }
+    
+    private void showRooms() throws SQLException {
+        DefaultTableModel model = (DefaultTableModel) rooms.getModel();
+        
+        try {
+            ResultSet rs = db.getRooms();
+            
+            while(rs.next()) {
+                model.addRow(new Object[]{rs.getString("name"), rs.getString("type"), rs.getString("capacity")});
+            }
+        }
+        catch (SQLException ex) {
+            Logger.getLogger(DbHelper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -29,7 +58,7 @@ public class AdminWelcome extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        rooms = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -37,15 +66,15 @@ public class AdminWelcome extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
         jLabel1.setText("Room List");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        rooms.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Room Name", "Room Type", "Status", "Capacity"
+                "Room Name", "Room Type", "Capacity"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(rooms);
 
         jButton1.setText("Add Room");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -129,6 +158,6 @@ public class AdminWelcome extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable rooms;
     // End of variables declaration//GEN-END:variables
 }
