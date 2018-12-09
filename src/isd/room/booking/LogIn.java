@@ -1,5 +1,9 @@
 package isd.room.booking;
 
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -11,12 +15,16 @@ package isd.room.booking;
  * @author user
  */
 public class LogIn extends javax.swing.JFrame {
-
+    
+    private DbHelper db;
+    
     /**
      * Creates new form LogIn
      */
     public LogIn() {
         initComponents();
+        db = new DbHelper();
+        
     }
 
     /**
@@ -31,10 +39,10 @@ public class LogIn extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         userid = new javax.swing.JTextField();
-        password = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         notice = new javax.swing.JLabel();
+        password = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -42,9 +50,9 @@ public class LogIn extends javax.swing.JFrame {
 
         jLabel2.setText("Password");
 
-        password.addActionListener(new java.awt.event.ActionListener() {
+        userid.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                passwordActionPerformed(evt);
+                useridActionPerformed(evt);
             }
         });
 
@@ -65,22 +73,22 @@ public class LogIn extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(90, 90, 90)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel1))
-                        .addGap(122, 122, 122)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(userid, javax.swing.GroupLayout.DEFAULT_SIZE, 68, Short.MAX_VALUE)
-                            .addComponent(password)))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(160, 160, 160)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel3)
                             .addComponent(jButton1)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(176, 176, 176)
-                        .addComponent(notice, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(90, 90, 90)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(notice, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel1))
+                                .addGap(122, 122, 122)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(userid, javax.swing.GroupLayout.DEFAULT_SIZE, 68, Short.MAX_VALUE)
+                                    .addComponent(password))))))
                 .addContainerGap(74, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -98,25 +106,44 @@ public class LogIn extends javax.swing.JFrame {
                     .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jButton1)
-                .addGap(35, 35, 35)
+                .addGap(28, 28, 28)
                 .addComponent(notice, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(59, Short.MAX_VALUE))
+                .addContainerGap(66, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_passwordActionPerformed
-
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        try {
             // TODO add your handling code here:
             String uid = userid.getText();
             String pwd = password.getText();
+            User user = db.userExists(uid, pwd);
             
+            if(user != null) {
+                if (user.getLevel() == 0) {
+                    StudentWelcome st = new StudentWelcome();
+                    st.setVisible(true);
+                }
+                else {
+                    AdminWelcome ad = new AdminWelcome();
+                    ad.setVisible(true);
+                }
             
+                this.dispose();
+            }
+            else
+                notice.setText("Invalid username or password");
+        }
+        catch (SQLException ex) {
+            Logger.getLogger(LogIn.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void useridActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_useridActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_useridActionPerformed
 
     /**
      * @param args the command line arguments
@@ -159,7 +186,7 @@ public class LogIn extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel notice;
-    private javax.swing.JTextField password;
+    private javax.swing.JPasswordField password;
     private javax.swing.JTextField userid;
     // End of variables declaration//GEN-END:variables
 }
