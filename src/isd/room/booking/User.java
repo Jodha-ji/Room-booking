@@ -10,7 +10,7 @@ package isd.room.booking;
  * @author user
  */
 public class User {
-    private String uid;
+    String uid;
     private String name;
     private String email;
     private String phone;
@@ -31,9 +31,6 @@ public class User {
         return uid;
     }
 
-    public void setUid(String uid) {
-        this.uid = uid;
-    }
 
     public int getLevel() {
         return level;

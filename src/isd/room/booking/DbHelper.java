@@ -26,6 +26,8 @@ public final class DbHelper {
     private Statement getRoomList;
     private Statement deleteRooms;
     private Statement deleteBookings;
+    private Statement addRoom;
+    private Statement addBooking;
     
     public DbHelper() {
         connect();
@@ -126,4 +128,37 @@ public final class DbHelper {
             Logger.getLogger(DbHelper.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public void addRoom(Room room) throws SQLException {
+        addRoom = conn.createStatement();
+        String query = "Insert into room values('"
+                + room.roomid + "','" + room.name + "," + room.capacity + "','" + room.type + "')";
+        
+        try {
+            addRoom.executeUpdate(query);
+        }
+        catch (SQLException ex) {
+            Logger.getLogger(DbHelper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+    
+    public void addBooking(Booking booking) throws SQLException {
+        addBooking = conn.createStatement();
+        String query = "Insert into request values('" + 
+                booking.req_id + "','" + booking.room.roomid + "','" + booking.user.uid + "','" + 
+                booking.date + "','" + booking.from_time + "','" + booking.toString()+"')";
+        
+        try {
+            addBooking.executeQuery(query);
+        }
+        catch (SQLException ex) {
+            Logger.getLogger(DbHelper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    
+    }
+    
+    
+    
 }
