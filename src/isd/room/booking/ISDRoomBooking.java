@@ -15,7 +15,6 @@ public class ISDRoomBooking {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-       DbHelper db = new DbHelper();
        LogIn login = new LogIn();
        login.setVisible(true);
     }

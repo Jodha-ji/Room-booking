@@ -24,6 +24,8 @@ public final class DbHelper {
     private Statement checkUserExistence;
     private Statement getBookingList;
     private Statement getRoomList;
+    private Statement deleteRooms;
+    private Statement deleteBookings;
     
     public DbHelper() {
         connect();
@@ -72,7 +74,7 @@ public final class DbHelper {
     public ResultSet getBookings(String uid) throws SQLException {
         ResultSet rs = null;
         getBookingList = conn.createStatement();
-        String query = "select name, date, from_time, to_time from room, request "
+        String query = "select req_id, name, date, from_time, to_time from room, request "
                 + "WHERE room.room_id = request.room_id and uid ='" + uid + "'";
         
         try {
@@ -98,5 +100,30 @@ public final class DbHelper {
         }
         
         return rs;
+    }
+
+    public void deleteBooking(int req_id) throws SQLException {
+        deleteBookings = conn.createStatement();
+        String query = "Delete from request where req_id = " + req_id;
+        
+        try {
+            deleteBookings.executeUpdate(query);
+        }
+        catch (SQLException ex) {
+            Logger.getLogger(DbHelper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    } 
+
+    public void deleteRoom(String room_id) throws SQLException {
+        deleteRooms = conn.createStatement();
+        String query = "Delete from room where room_id = " + room_id;
+        
+        try {
+            deleteRooms.executeUpdate(query);
+        }
+        catch (SQLException ex) {
+            Logger.getLogger(DbHelper.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
