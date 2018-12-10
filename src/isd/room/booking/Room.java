@@ -16,10 +16,8 @@ public class Room {
     String type;
     
     
-    public Room() {
-        
+    public Room() { 
     }
-
 
     public Room(String roomid, String name, int capacity, String type) {
         this.roomid = roomid;
@@ -31,7 +29,5 @@ public class Room {
     public String getRoomid() {
         return roomid;
     }    
-    
-    
 }
 

@@ -26,8 +26,9 @@ public final class DbHelper {
     private Statement getRoomList;
     private Statement deleteRooms;
     private Statement deleteBookings;
-    private Statement addRoom;
-    private Statement addBooking;
+    private Statement addRooms;
+    private Statement addBookings;
+    private Statement searchRooms;
     
     public DbHelper() {
         connect();
@@ -130,35 +131,35 @@ public final class DbHelper {
     }
     
     public void addRoom(Room room) throws SQLException {
-        addRoom = conn.createStatement();
+        addRooms = conn.createStatement();
         String query = "Insert into room values('"
-                + room.roomid + "','" + room.name + "," + room.capacity + "','" + room.type + "')";
+                + room.roomid + "','" + room.name + "'," + room.capacity + ",'" + room.type + "')";
         
-        try {
-            addRoom.executeUpdate(query);
-        }
-        catch (SQLException ex) {
-            Logger.getLogger(DbHelper.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
+        addRooms.executeUpdate(query);
     }
     
     public void addBooking(Booking booking) throws SQLException {
-        addBooking = conn.createStatement();
+        addBookings = conn.createStatement();
         String query = "Insert into request values('" + 
-                booking.req_id + "','" + booking.room.roomid + "','" + booking.user.uid + "','" + 
-                booking.date + "','" + booking.from_time + "','" + booking.toString()+"')";
+                Booking.req_id + "','" + booking.room_id + "','" + booking.uid + "','" + 
+                booking.date + "','" + booking.from_time + "','" + booking.to_time + "')";
+        
+        addBookings.executeUpdate(query);
+        Booking.req_id++;
+    }
+
+    public ResultSet searchRoom(Search s) throws SQLException {
+        ResultSet rs = null;
+        searchRooms = conn.createStatement();
+        String query = "";
         
         try {
-            addBooking.executeQuery(query);
+            rs = searchRooms.executeQuery(query);
         }
         catch (SQLException ex) {
             Logger.getLogger(DbHelper.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-    
+        return rs;
     }
-    
-    
-    
 }
