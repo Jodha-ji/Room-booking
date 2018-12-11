@@ -104,6 +104,8 @@ public class AdminWelcome extends javax.swing.JFrame {
             }
         });
 
+        notice.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
         jButton3.setText("Log Out");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
