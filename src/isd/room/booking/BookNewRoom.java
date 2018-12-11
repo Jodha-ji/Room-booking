@@ -356,6 +356,7 @@ public class BookNewRoom extends javax.swing.JFrame {
             try {
                 db.addBooking(b);
                 msg2 = "Room booked successfully";
+                showRooms();
             }
             catch (SQLException ex) {
                 Logger.getLogger(StudentWelcome.class.getName()).log(Level.SEVERE, null, ex);
@@ -372,11 +373,14 @@ public class BookNewRoom extends javax.swing.JFrame {
         
         try {
             ResultSet rs = db.searchRoom(s);
+            rs.last();
             
-            if(rs.next()) {
+            if(rs.getRow() == 0) {
                 msg1 = "No rooms available! Try changing input";
             }
             else {
+                rs.beforeFirst();
+                
                 while(rs.next())
                     model.addRow(new Object[]{rs.getString("room_id"), rs.getString("name"), rs.getInt("capacity")});
                 msg1 = "Please selct a room from the below list and click Confirm Booking";
@@ -392,7 +396,7 @@ public class BookNewRoom extends javax.swing.JFrame {
     private void showRooms() {
         DefaultTableModel model = (DefaultTableModel) avail.getModel();
         avail.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        //model.setRowCount(0);
+        model.setRowCount(0);
     }
     
     /**

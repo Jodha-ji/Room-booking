@@ -31,7 +31,6 @@ public class User {
         return uid;
     }
 
-
     public int getLevel() {
         return level;
     }

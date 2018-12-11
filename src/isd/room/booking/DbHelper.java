@@ -140,22 +140,23 @@ public final class DbHelper {
     
     public void addBooking(Booking booking) throws SQLException {
         addBookings = conn.createStatement();
-        String query = "Insert into request values('" + 
-                Booking.req_id + "','" + booking.room_id + "','" + booking.uid + "','" + 
+        String query = "Insert into request(room_id, uid, date, from_time, to_time) values('" + 
+                booking.room_id + "','" + booking.uid + "','" + 
                 booking.date + "','" + booking.from_time + "','" + booking.to_time + "')";
         
         addBookings.executeUpdate(query);
-        Booking.req_id++;
     }
 
     public ResultSet searchRoom(Search s) throws SQLException {
         ResultSet rs = null;
         searchRooms = conn.createStatement();
-        String query = "select * from room, request where room.room_id = request.room_id and type = '" 
+        String query = "select * from room where room_id in ("
+                + "select room.room_id from room, request where room.room_id = request.room_id and type = '" 
                 + s.type + "' and capacity >= " + s.capacity + " and "
                 + "(date <> '" + s.date + "' or (date = '" + s.date + "' and "
                 + "((strcmp(cast(from_time as char), '" + s.from_time + "') > 0 and strcmp(cast(from_time as char), '" + s.to_time + "') >= 0) or "
-                + "(strcmp(cast(to_time as char), '" + s.from_time + "') <=0 and strcmp(cast(to_time as char), '" + s.to_time + "') <0))))";
+                + "(strcmp(cast(to_time as char), '" + s.from_time + "') <= 0 and strcmp(cast(to_time as char), '" + s.to_time + "') < 0)))))"
+                + " or room_id not in (select room_id from request)";
         
         try {
             rs = searchRooms.executeQuery(query);

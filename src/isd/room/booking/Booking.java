@@ -5,15 +5,11 @@
  */
 package isd.room.booking;
 
-import java.sql.Time;
-import java.util.Date;
-
 /**
  *
  * @author user
  */
 public class Booking {
-    static int req_id = 1;
     String room_id;
     String uid;
     String date;
@@ -26,8 +22,5 @@ public class Booking {
         this.date = date;
         this.from_time = from_time;
         this.to_time = to_time;
-    }
-    public int getReq_id() {
-        return req_id;
     }
 }
