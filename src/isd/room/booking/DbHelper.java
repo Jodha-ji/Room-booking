@@ -150,14 +150,12 @@ public final class DbHelper {
     public ResultSet searchRoom(Search s) throws SQLException {
         ResultSet rs = null;
         searchRooms = conn.createStatement();
-        String query = "select * from room where room_id in ("
+        String query = "select * from room where room_id not in ("
                 + "select room.room_id from room, request where room.room_id = request.room_id and type = '" 
-                + s.type + "' and capacity >= " + s.capacity + " and "
-                + "(date <> '" + s.date + "' or (date = '" + s.date + "' and "
-                + "((strcmp(cast(from_time as char), '" + s.from_time + "') > 0 and strcmp(cast(from_time as char), '" + s.to_time + "') >= 0) or "
-                + "(strcmp(cast(to_time as char), '" + s.from_time + "') <= 0 and strcmp(cast(to_time as char), '" + s.to_time + "') < 0)))))"
+                + s.type + "' and capacity >= " + s.capacity + " and date = '" + s.date + "' and "
+                + "(strcmp(cast(to_time as char), '" + s.from_time + "') >=  0 or strcmp(cast(from_time as char), '" + s.to_time + "') <= 0))"
                 + " or room_id not in (select room_id from request)";
-        
+        System.out.println(query);
         try {
             rs = searchRooms.executeQuery(query);
         }

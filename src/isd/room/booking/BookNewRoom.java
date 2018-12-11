@@ -273,7 +273,6 @@ public class BookNewRoom extends javax.swing.JFrame {
         int fmm = (int) frommm.getValue();
         int thh = (int) tohh.getValue();
         int tmm = (int) tomm.getValue();
-        
         String sfhh, sfmm, sthh, stmm;
         
         if(fhh < 10)
