@@ -157,31 +157,6 @@ public class BookNewRoom extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(140, 140, 140)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel5)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(fromhh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(jButton1)
-                                                .addGap(48, 48, 48))
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(jLabel7)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(frommm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(jLabel6)
-                                                .addGap(26, 26, 26)))
-                                        .addComponent(tohh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(notice1, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel8)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(tomm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
                                 .addGap(32, 32, 32)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
@@ -200,7 +175,32 @@ public class BookNewRoom extends javax.swing.JFrame {
                                 .addGap(184, 184, 184)
                                 .addComponent(jLabel4)
                                 .addGap(18, 18, 18)
-                                .addComponent(datepick, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(datepick, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(114, 114, 114)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(notice1, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel5)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(fromhh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(jButton1)
+                                                .addGap(48, 48, 48))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(jLabel7)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(frommm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(jLabel6)
+                                                .addGap(26, 26, 26)))
+                                        .addComponent(tohh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel8)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(tomm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                         .addGap(0, 22, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addContainerGap()
@@ -273,8 +273,31 @@ public class BookNewRoom extends javax.swing.JFrame {
         int fmm = (int) frommm.getValue();
         int thh = (int) tohh.getValue();
         int tmm = (int) tomm.getValue();
-        String from_time = fhh + ":" + fmm;
-        String to_time = thh + ":" + tmm;
+        
+        String sfhh, sfmm, sthh, stmm;
+        
+        if(fhh < 10)
+            sfhh = "0" + fhh;
+        else
+            sfhh = "" + fhh;
+        
+        if(fmm < 10)
+            sfmm = "0" + fmm;
+        else
+            sfmm = "" + fmm;
+        
+        if(thh < 10)
+            sthh = "0" + thh;
+        else
+            sthh = "" + thh;
+        
+        if(tmm < 10)
+            stmm = "0" + tmm;
+        else
+            stmm = "" + tmm;
+                
+        String from_time = sfhh + ":" + sfmm + ":00";
+        String to_time = sthh + ":" + stmm + ":00";
         
         String msg1 = null;
         Date cd = new Date();
@@ -287,7 +310,7 @@ public class BookNewRoom extends javax.swing.JFrame {
             msg1 = "Input date is invalid";
         }
         else if(capacity <= 0) {
-            msg1 = "Capacity must be greatr than zero";
+            msg1 = "Capacity must be greater than zero";
         }
         else if(fhh<0 || fhh>23 || fmm<0 || fmm>59 || thh<0 || thh>23 || tmm<0 || tmm>59) {
             msg1 = "Input time is incorrect";
@@ -297,8 +320,7 @@ public class BookNewRoom extends javax.swing.JFrame {
         }
         else {
             s = new Search(type, capacity, date, from_time, to_time);
-            showRooms(s);
-            msg1 = "Select one room from below list and click confirm to book";
+            msg1 = showRooms(s);
         }
         
         notice1.setText(msg1);
@@ -343,26 +365,34 @@ public class BookNewRoom extends javax.swing.JFrame {
         notice2.setText(msg2);
     }//GEN-LAST:event_jButton2ActionPerformed
     
-    private void showRooms(Search s) {
+    private String showRooms(Search s) {
         DefaultTableModel model = (DefaultTableModel) avail.getModel();
         model.setRowCount(0);
+        String msg1 = null;
         
         try {
             ResultSet rs = db.searchRoom(s);
-
-            while(rs.next()) {
-                model.addRow(new Object[]{rs.getString("room_id"), rs.getString("name"), rs.getInt("capacity")});
+            
+            if(rs.next()) {
+                msg1 = "No rooms available! Try changing input";
+            }
+            else {
+                while(rs.next())
+                    model.addRow(new Object[]{rs.getString("room_id"), rs.getString("name"), rs.getInt("capacity")});
+                msg1 = "Please selct a room from the below list and click Confirm Booking";
             }
         }
         catch (SQLException ex) {
             Logger.getLogger(DbHelper.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        return msg1;
     }
 
     private void showRooms() {
         DefaultTableModel model = (DefaultTableModel) avail.getModel();
         avail.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        model.setRowCount(0);
+        //model.setRowCount(0);
     }
     
     /**
