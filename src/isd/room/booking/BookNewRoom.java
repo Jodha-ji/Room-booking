@@ -264,15 +264,36 @@ public class BookNewRoom extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String type = (String) rtype.getSelectedItem();
         int capacity = (int) cap.getValue();
+        
         Date d = datepick.getDate();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");  
         String date = formatter.format(d);
-        String from_time = fromhh.getValue() + ":" + frommm.getValue();
-        String to_time = tohh.getValue() + ":" + tomm.getValue();
+        
+        int fhh = (int) fromhh.getValue();
+        int fmm = (int) frommm.getValue();
+        int thh = (int) tohh.getValue();
+        int tmm = (int) tomm.getValue();
+        String from_time = fhh + ":" + fmm;
+        String to_time = thh + ":" + tmm;
+        
         String msg1 = null;
+        Date cd = new Date();
+        String curDate = formatter.format(cd);
         
         if(date.equals("")) {
             msg1 = "All fields are mandatory";
+        }
+        else if(d.compareTo(cd) <= 0) {
+            msg1 = "Input date is invalid";
+        }
+        else if(capacity <= 0) {
+            msg1 = "Capacity must be greatr than zero";
+        }
+        else if(fhh<0 || fhh>23 || fmm<0 || fmm>59 || thh<0 || thh>23 || tmm<0 || tmm>59) {
+            msg1 = "Input time is incorrect";
+        }
+        else if(fhh > thh || (fhh == thh && fmm > tmm)) {
+            msg1 = "Input time is incorrect";
         }
         else {
             s = new Search(type, capacity, date, from_time, to_time);

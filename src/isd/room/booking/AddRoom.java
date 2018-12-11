@@ -161,7 +161,7 @@ public class AddRoom extends javax.swing.JFrame {
         if(id.equals("") || name.equals("")) {
             msg = "All fields are mandatory";
         }
-        else if(capacity == 0) {
+        else if(capacity <= 0) {
             msg = "Capacity must be greater than zero";
         }
         else {
