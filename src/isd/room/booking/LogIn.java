@@ -23,6 +23,7 @@ public class LogIn extends javax.swing.JFrame {
      */
     public LogIn() {
         initComponents();
+        getContentPane().setBackground(new java.awt.Color(204, 166, 166));
         db = new DbHelper();
         
     }
@@ -45,6 +46,7 @@ public class LogIn extends javax.swing.JFrame {
         password = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 255, 0));
 
         jLabel1.setText("User Id");
 

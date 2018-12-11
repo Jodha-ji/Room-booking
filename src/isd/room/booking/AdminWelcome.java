@@ -29,6 +29,7 @@ public class AdminWelcome extends javax.swing.JFrame {
     
     public AdminWelcome(User u) throws SQLException {
         initComponents();
+        getContentPane().setBackground(new java.awt.Color( 255 , 204 , 51 ));
         this.user = u;
         db = new DbHelper();
         showRooms();
@@ -68,10 +69,12 @@ public class AdminWelcome extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 204, 51));
 
         jLabel1.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
         jLabel1.setText("Room List");
 
+        rooms.setBackground(new java.awt.Color(255, 204, 51));
         rooms.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 

@@ -31,6 +31,7 @@ public class StudentWelcome extends javax.swing.JFrame {
     
     public StudentWelcome(User u) throws SQLException {
         initComponents();
+        getContentPane().setBackground(new java.awt.Color( 102 , 204 , 0 ));
         this.user = u;
         db = new DbHelper();
         showBookings();
@@ -71,7 +72,9 @@ public class StudentWelcome extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(102, 204, 0));
 
+        bookings.setBackground(new java.awt.Color(102, 204, 0));
         bookings.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -88,6 +91,7 @@ public class StudentWelcome extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        bookings.setGridColor(new java.awt.Color(0, 0, 0));
         jScrollPane1.setViewportView(bookings);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N

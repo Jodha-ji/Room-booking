@@ -26,6 +26,7 @@ public class AddRoom extends javax.swing.JFrame {
     
     public AddRoom(User u) {
         initComponents();
+        getContentPane().setBackground(new java.awt.Color( 255 , 204 , 51 ));
         this.user = u;
         db = new DbHelper();
     }

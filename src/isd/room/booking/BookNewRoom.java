@@ -32,6 +32,7 @@ public class BookNewRoom extends javax.swing.JFrame {
     
     public BookNewRoom(User u) {
         initComponents();
+        getContentPane().setBackground(new java.awt.Color( 102 , 204 , 0 ));
         this.user = u;
         db = new DbHelper();
         showRooms();
@@ -70,6 +71,8 @@ public class BookNewRoom extends javax.swing.JFrame {
         notice2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 255, 0));
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         rtype.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "LTs", "Academic", "Non Acadamic" }));
         rtype.addActionListener(new java.awt.event.ActionListener() {
@@ -98,6 +101,7 @@ public class BookNewRoom extends javax.swing.JFrame {
             }
         });
 
+        avail.setBackground(new java.awt.Color(102, 204, 0));
         avail.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -323,6 +327,10 @@ public class BookNewRoom extends javax.swing.JFrame {
         }
         
         notice1.setText(msg1);
+        
+        
+        
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
