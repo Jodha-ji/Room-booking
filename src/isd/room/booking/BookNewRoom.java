@@ -90,6 +90,12 @@ public class BookNewRoom extends javax.swing.JFrame {
 
         jLabel4.setText("Date ");
 
+        datepick.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                datepickActionPerformed(evt);
+            }
+        });
+
         jLabel5.setText("Time");
 
         jLabel6.setText("To");
@@ -266,12 +272,31 @@ public class BookNewRoom extends javax.swing.JFrame {
     }//GEN-LAST:event_rtypeActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String msg1 = null;
         String type = (String) rtype.getSelectedItem();
         int capacity = (int) cap.getValue();
+        SimpleDateFormat formatter = null;
+        String date = null;
+        Date d = null;
         
-        Date d = datepick.getDate();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");  
-        String date = formatter.format(d);
+        try {
+            d = datepick.getDate();
+            formatter = new SimpleDateFormat("yyyy/MM/dd");            
+            date = formatter.format(d);
+            Date cd = new Date();
+            String curDate = formatter.format(cd);
+            
+            if(d.compareTo(cd) <= 0) {
+                msg1 = "Please select a date after " + formatter.format(cd);
+                notice1.setText(msg1);
+                return;
+            }
+        }
+        catch (NullPointerException ex) {
+            msg1 = "Input date is invalid";
+            notice1.setText(msg1);
+            return;
+        }
         
         int fhh = (int) fromhh.getValue();
         int fmm = (int) frommm.getValue();
@@ -302,23 +327,13 @@ public class BookNewRoom extends javax.swing.JFrame {
         String from_time = sfhh + ":" + sfmm + ":00";
         String to_time = sthh + ":" + stmm + ":00";
         
-        String msg1 = null;
-        Date cd = new Date();
-        String curDate = formatter.format(cd);
-        
-        if(date.equals("")) {
-            msg1 = "All fields are mandatory";
-        }
-        else if(d.compareTo(cd) <= 0) {
-            msg1 = "Input date is invalid";
-        }
-        else if(capacity <= 0) {
+        if(capacity <= 0) {
             msg1 = "Capacity must be greater than zero";
         }
         else if(fhh<0 || fhh>23 || fmm<0 || fmm>59 || thh<0 || thh>23 || tmm<0 || tmm>59) {
             msg1 = "Input time is incorrect";
         }
-        else if(fhh > thh || (fhh == thh && fmm > tmm)) {
+        else if(fhh > thh || (fhh == thh && fmm >= tmm)) {
             msg1 = "Input time is incorrect";
         }
         else {
@@ -327,10 +342,6 @@ public class BookNewRoom extends javax.swing.JFrame {
         }
         
         notice1.setText(msg1);
-        
-        
-        
-        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -372,6 +383,10 @@ public class BookNewRoom extends javax.swing.JFrame {
         
         notice2.setText(msg2);
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void datepickActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_datepickActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_datepickActionPerformed
     
     private String showRooms(Search s) {
         DefaultTableModel model = (DefaultTableModel) avail.getModel();

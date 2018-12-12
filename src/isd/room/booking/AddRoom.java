@@ -87,8 +87,6 @@ public class AddRoom extends javax.swing.JFrame {
 
         rc.setModel(new javax.swing.SpinnerNumberModel(0, 0, 500, 25));
 
-        notice.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(

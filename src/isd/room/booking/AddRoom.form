@@ -180,9 +180,6 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="notice">
-      <Properties>
-        <Property name="horizontalAlignment" type="int" value="0"/>
-      </Properties>
     </Component>
   </SubComponents>
 </Form>
