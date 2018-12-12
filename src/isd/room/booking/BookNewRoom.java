@@ -8,6 +8,7 @@ package isd.room.booking;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,6 +23,7 @@ public class BookNewRoom extends javax.swing.JFrame {
     private User user = null;
     private DbHelper db = null;
     private Search s = null;
+    private DefaultTableModel model = null;
     
     /**
      * Creates new form BookNewRoom
@@ -32,6 +34,7 @@ public class BookNewRoom extends javax.swing.JFrame {
     
     public BookNewRoom(User u) {
         initComponents();
+        this.model = (DefaultTableModel) avail.getModel();
         getContentPane().setBackground(new java.awt.Color( 102 , 204 , 0 ));
         this.user = u;
         db = new DbHelper();
@@ -74,7 +77,7 @@ public class BookNewRoom extends javax.swing.JFrame {
         setBackground(new java.awt.Color(255, 255, 0));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
-        rtype.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "LTs", "Academic", "Non Acadamic" }));
+        rtype.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "LTs", "Acadamic", "Non-Acadamic" }));
         rtype.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rtypeActionPerformed(evt);
@@ -208,7 +211,7 @@ public class BookNewRoom extends javax.swing.JFrame {
                                 .addComponent(jLabel8)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(tomm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 22, Short.MAX_VALUE))
+                        .addGap(0, 21, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -216,10 +219,10 @@ public class BookNewRoom extends javax.swing.JFrame {
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(notice2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(193, 193, 193)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jButton2)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(187, 187, 187))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -272,25 +275,30 @@ public class BookNewRoom extends javax.swing.JFrame {
     }//GEN-LAST:event_rtypeActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        model.setRowCount(0);
         String msg1 = null;
         String type = (String) rtype.getSelectedItem();
         int capacity = (int) cap.getValue();
         SimpleDateFormat formatter = null;
         String date = null;
         Date d = null;
-        
+        Calendar c = Calendar.getInstance();
+        int dayofweek;
+
         try {
             d = datepick.getDate();
             formatter = new SimpleDateFormat("yyyy/MM/dd");            
             date = formatter.format(d);
             Date cd = new Date();
             String curDate = formatter.format(cd);
-            
+            c.setTime(d);
+            dayofweek = c.get(Calendar.DAY_OF_WEEK);
+
             if(d.compareTo(cd) <= 0) {
                 msg1 = "Please select a date after " + formatter.format(cd);
                 notice1.setText(msg1);
                 return;
-            }
+            } 
         }
         catch (NullPointerException ex) {
             msg1 = "Input date is invalid";
@@ -336,6 +344,12 @@ public class BookNewRoom extends javax.swing.JFrame {
         else if(fhh > thh || (fhh == thh && fmm >= tmm)) {
             msg1 = "Input time is incorrect";
         }
+        else if(((rtype.getSelectedIndex()==0 || rtype.getSelectedIndex()==1) && (dayofweek >1 && dayofweek<7)) && (fhh < 18 && thh >= 8)) {
+            // Time must not inlude 8:00AM to 6:00PM for Acadamic and LTs on weekdays
+            
+            msg1 = "This is class timing. you may not book now";
+            
+        }
         else {
             s = new Search(type, capacity, date, from_time, to_time);
             msg1 = showRooms(s);
@@ -368,15 +382,17 @@ public class BookNewRoom extends javax.swing.JFrame {
             msg2 = "Please search for a room first";
         }
         else {
-            String room_id = (String) avail.getValueAt(i, 0);
-            b = new Booking(room_id, user.getUid(), s.date, s.from_time, s.to_time);
-            
             try {
+                int req_id = db.noOfRequests() + 1;
+                String room_id = (String) avail.getValueAt(i, 0);
+                b = new Booking(req_id, room_id, user.getUid(), s.date, s.from_time, s.to_time);
+                
                 db.addBooking(b);
                 msg2 = "Room booked successfully";
                 showRooms();
             }
             catch (SQLException ex) {
+                System.out.println("hello");
                 Logger.getLogger(StudentWelcome.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -389,8 +405,6 @@ public class BookNewRoom extends javax.swing.JFrame {
     }//GEN-LAST:event_datepickActionPerformed
     
     private String showRooms(Search s) {
-        DefaultTableModel model = (DefaultTableModel) avail.getModel();
-        model.setRowCount(0);
         String msg1 = null;
         
         try {

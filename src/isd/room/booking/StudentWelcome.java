@@ -19,8 +19,9 @@ import javax.swing.table.DefaultTableModel;
  * @author user
  */
 public class StudentWelcome extends javax.swing.JFrame {
-    private DbHelper db;
-    private User user;
+    private DbHelper db = null;
+    private User user = null;
+    private Booking b = null;
     
     /**
      * Creates new form StudentWelcome
@@ -44,9 +45,31 @@ public class StudentWelcome extends javax.swing.JFrame {
         
         try {
             ResultSet rs = db.getBookings(user.getUid());
+            String acc = "";
             
             while(rs.next()) {
-                model.addRow(new Object[]{rs.getInt("req_id"), rs.getString("name"), rs.getString("date"), rs.getString("from_time") + " - " + rs.getString("to_time")});
+                if(rs.getInt("chair") > 0) {
+                    acc += "Chair: " + rs.getInt("chair") + ",";
+                }
+                if(rs.getInt("pointer") > 0) {
+                    acc += "Pointer: " + rs.getInt("Pointer") + ",";
+                }
+                if(rs.getInt("microphone") > 0) {
+                    acc += "Microphone: " + rs.getInt("microphone") + ",";
+                }
+                if(rs.getInt("speaker") > 0) {
+                    acc += "Speaker: " + rs.getInt("speaker") + ",";
+                }
+
+                if(acc.equals("")) {
+                    acc = "NA";
+                }
+                else {
+                    acc = acc.substring(0, acc.length() - 1);
+                }
+                
+                model.addRow(new Object[]{rs.getInt("req_id"), rs.getString("name"), rs.getString("date"), rs.getString("from_time") + " - " + rs.getString("to_time"), acc});
+                acc = "";
             }
         }
         catch (SQLException ex) {
@@ -70,6 +93,7 @@ public class StudentWelcome extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         notice = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(102, 204, 0));
@@ -80,11 +104,11 @@ public class StudentWelcome extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Room Id", "Room name", "Date", "Time "
+                "Request ID", "Room name", "Date", "Time ", "Accessories"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -120,6 +144,13 @@ public class StudentWelcome extends javax.swing.JFrame {
             }
         });
 
+        jButton4.setText("Add accessory");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -127,42 +158,41 @@ public class StudentWelcome extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(55, 55, 55)
-                        .addComponent(jButton1)
-                        .addGap(64, 64, 64)
-                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(65, 65, 65))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(96, 96, 96)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(96, 513, Short.MAX_VALUE)
                         .addComponent(jButton3))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(notice, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 574, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButton1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton4)
+                                .addGap(124, 124, 124)
+                                .addComponent(jButton2))
+                            .addComponent(notice, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addGap(191, 191, 191))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(31, 31, 31)
-                        .addComponent(jLabel2))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jButton3)))
-                .addGap(49, 49, 49)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(jButton3)
+                .addGap(1, 1, 1)
+                .addComponent(jLabel2)
+                .addGap(51, 51, 51)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(notice, javax.swing.GroupLayout.DEFAULT_SIZE, 19, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(notice, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(jButton2)
+                    .addComponent(jButton4))
                 .addGap(33, 33, 33))
         );
 
@@ -201,6 +231,28 @@ public class StudentWelcome extends javax.swing.JFrame {
         login.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        int i = bookings.getSelectedRow();
+        
+        if(i == -1) {
+            notice.setText("Please select a booking first");
+        }
+        else {
+            try {
+                int req_id = (int) bookings.getValueAt(i, 0);
+                ResultSet rs = db.getBooking(req_id);
+                rs.next();
+                
+                b = new Booking(req_id, rs.getString("room_id"), rs.getString("uid"), rs.getString("date"), rs.getString("from_time"), rs.getString("to_time"));
+                BookAccessories addAccessory = new BookAccessories(user, b);
+                addAccessory.setVisible(true);
+                this.dispose();
+            } catch (SQLException ex) {
+                Logger.getLogger(StudentWelcome.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -242,6 +294,7 @@ public class StudentWelcome extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel notice;

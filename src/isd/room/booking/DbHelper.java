@@ -24,11 +24,15 @@ public final class DbHelper {
     private Statement checkUserExistence;
     private Statement getBookingList;
     private Statement getRoomList;
+    private Statement getBookings;
+    private Statement getAccessories;
     private Statement deleteRooms;
     private Statement deleteBookings;
     private Statement addRooms;
     private Statement addBookings;
+    private Statement addAccessory;
     private Statement searchRooms;
+    private Statement selectRequests;
     
     public DbHelper() {
         connect();
@@ -77,8 +81,9 @@ public final class DbHelper {
     public ResultSet getBookings(String uid) throws SQLException {
         ResultSet rs = null;
         getBookingList = conn.createStatement();
-        String query = "select req_id, name, date, from_time, to_time from room, request "
-                + "WHERE room.room_id = request.room_id and uid ='" + uid + "'";
+        String query = "select * from room, request, accessory where"
+                + " room.room_id = request.room_id and request.req_id = accessory.req_id"
+                + " and uid ='" + uid + "'";
         
         try {
             rs = getBookingList.executeQuery(query);
@@ -104,6 +109,36 @@ public final class DbHelper {
         
         return rs;
     }
+    
+    public ResultSet getBooking(int req_id) throws SQLException{
+        ResultSet rs = null;
+        getBookings = conn.createStatement();
+        String query = "select * FROM request where request.req_id = '" + req_id + "'";
+        
+        try {
+            rs = getBookings.executeQuery(query);
+        }
+        catch (SQLException ex) {
+            Logger.getLogger(DbHelper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return rs;
+    }
+    
+    public ResultSet getAccessory() throws SQLException{
+        ResultSet rs = null;
+        getAccessories = conn.createStatement();
+        String query = "select * FROM request, accessory where request.req_id = accessory.req_id and date > curdate()";
+        
+        try {
+            rs = getAccessories.executeQuery(query);
+        }
+        catch (SQLException ex) {
+            Logger.getLogger(DbHelper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return rs;
+    }
 
     public void deleteBooking(int req_id) throws SQLException {
         deleteBookings = conn.createStatement();
@@ -115,7 +150,6 @@ public final class DbHelper {
         catch (SQLException ex) {
             Logger.getLogger(DbHelper.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
     } 
 
     public void deleteRoom(String room_id) throws SQLException {
@@ -140,22 +174,31 @@ public final class DbHelper {
     
     public void addBooking(Booking booking) throws SQLException {
         addBookings = conn.createStatement();
-        String query = "Insert into request(room_id, uid, date, from_time, to_time) values('" + 
-                booking.room_id + "','" + booking.uid + "','" + 
+        String query = "Insert into request values(" + 
+                booking.req_id + ",'" + booking.room_id + "','" + booking.uid + "','" + 
                 booking.date + "','" + booking.from_time + "','" + booking.to_time + "')";
         
         addBookings.executeUpdate(query);
+    }
+    
+    public void addAccessory(Accessory a) throws SQLException {
+        addAccessory = conn.createStatement();
+        
+        String query = "Insert into accessory values (" + a.req_id + "," + a.chairs + "," + a.pointers + "," + a.microphones + "," + a.speakers +")";
+        
+        addAccessory.executeUpdate(query);
     }
 
     public ResultSet searchRoom(Search s) throws SQLException {
         ResultSet rs = null;
         searchRooms = conn.createStatement();
-        String query = "select * from room where room_id not in ("
+        String query = "select * from room where (room_id not in ("
                 + "select room.room_id from room, request where room.room_id = request.room_id and type = '" 
                 + s.type + "' and capacity >= " + s.capacity + " and date = '" + s.date + "' and "
                 + "(strcmp(cast(to_time as char), '" + s.from_time + "') >=  0 or strcmp(cast(from_time as char), '" + s.to_time + "') <= 0))"
-                + " or room_id not in (select room_id from request)";
-        System.out.println(query);
+                + " or room_id not in (select room_id from request))"
+                + " and capacity >= " + s.capacity + " and type = '" + s.type + "'";
+        
         try {
             rs = searchRooms.executeQuery(query);
         }
@@ -164,5 +207,23 @@ public final class DbHelper {
         }
         
         return rs;
+    }
+    
+    public int noOfRequests() throws SQLException {
+        ResultSet rs = null;
+        selectRequests = conn.createStatement();
+        String query = "select count(req_id) as len from request";
+        int n = 0;
+        
+        try {
+            rs = selectRequests.executeQuery(query);
+            rs.next();
+            n = rs.getInt("len");
+        } 
+        catch (SQLException ex) {
+            Logger.getLogger(DbHelper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return n;
     }
 }

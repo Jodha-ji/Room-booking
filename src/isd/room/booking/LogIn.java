@@ -127,13 +127,21 @@ public class LogIn extends javax.swing.JFrame {
             User user = db.userExists(uid, pwd);
             
             if(user != null) {
-                if (user.getLevel() == 0) {
-                    StudentWelcome st = new StudentWelcome(user);
-                    st.setVisible(true);
-                }
-                else {
-                    AdminWelcome ad = new AdminWelcome(user);
-                    ad.setVisible(true);
+                switch (user.getLevel()) {
+                    case 0:
+                        StudentWelcome st = new StudentWelcome(user);
+                        st.setVisible(true);
+                        break;
+                    case 1:
+                        AdminWelcome ad = new AdminWelcome(user);
+                        ad.setVisible(true);
+                        break;
+                    case 2:
+                        AccManagerWelcome am = new AccManagerWelcome(user);
+                        am.setVisible(true);
+                        break;
+                    default:
+                        break;
                 }
             
                 this.dispose();
