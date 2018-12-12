@@ -383,7 +383,7 @@ public class BookNewRoom extends javax.swing.JFrame {
         }
         else {
             try {
-                int req_id = db.noOfRequests() + 1;
+                int req_id = db.lastRequest();
                 String room_id = (String) avail.getValueAt(i, 0);
                 b = new Booking(req_id, room_id, user.getUid(), s.date, s.from_time, s.to_time);
                 

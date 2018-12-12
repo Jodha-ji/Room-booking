@@ -73,6 +73,7 @@ public class AccManagerWelcome extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(0, 255, 204));
 
+        acc.setBackground(new java.awt.Color(0, 255, 204));
         acc.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 

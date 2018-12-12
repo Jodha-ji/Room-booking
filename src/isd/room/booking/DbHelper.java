@@ -81,9 +81,8 @@ public final class DbHelper {
     public ResultSet getBookings(String uid) throws SQLException {
         ResultSet rs = null;
         getBookingList = conn.createStatement();
-        String query = "select * from room, request, accessory where"
-                + " room.room_id = request.room_id and request.req_id = accessory.req_id"
-                + " and uid ='" + uid + "'";
+        String query = "select * from room, request where"
+                + " room.room_id = request.room_id and uid ='" + uid + "'";
         
         try {
             rs = getBookingList.executeQuery(query);
@@ -209,16 +208,21 @@ public final class DbHelper {
         return rs;
     }
     
-    public int noOfRequests() throws SQLException {
+    public int lastRequest() throws SQLException {
         ResultSet rs = null;
         selectRequests = conn.createStatement();
-        String query = "select count(req_id) as len from request";
+        String query = "select * from request";
         int n = 0;
         
         try {
             rs = selectRequests.executeQuery(query);
-            rs.next();
-            n = rs.getInt("len");
+            if(rs.next()) {
+                rs.last();
+                n = rs.getInt("req_id") + 1;
+            }
+            else {
+                n = 1;
+            }
         } 
         catch (SQLException ex) {
             Logger.getLogger(DbHelper.class.getName()).log(Level.SEVERE, null, ex);

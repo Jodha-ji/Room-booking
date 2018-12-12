@@ -45,31 +45,9 @@ public class StudentWelcome extends javax.swing.JFrame {
         
         try {
             ResultSet rs = db.getBookings(user.getUid());
-            String acc = "";
             
             while(rs.next()) {
-                if(rs.getInt("chair") > 0) {
-                    acc += "Chair: " + rs.getInt("chair") + ",";
-                }
-                if(rs.getInt("pointer") > 0) {
-                    acc += "Pointer: " + rs.getInt("Pointer") + ",";
-                }
-                if(rs.getInt("microphone") > 0) {
-                    acc += "Microphone: " + rs.getInt("microphone") + ",";
-                }
-                if(rs.getInt("speaker") > 0) {
-                    acc += "Speaker: " + rs.getInt("speaker") + ",";
-                }
-
-                if(acc.equals("")) {
-                    acc = "NA";
-                }
-                else {
-                    acc = acc.substring(0, acc.length() - 1);
-                }
-                
-                model.addRow(new Object[]{rs.getInt("req_id"), rs.getString("name"), rs.getString("date"), rs.getString("from_time") + " - " + rs.getString("to_time"), acc});
-                acc = "";
+                model.addRow(new Object[]{rs.getInt("req_id"), rs.getString("name"), rs.getString("date"), rs.getString("from_time") + " - " + rs.getString("to_time")});
             }
         }
         catch (SQLException ex) {
@@ -104,11 +82,11 @@ public class StudentWelcome extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Request ID", "Room name", "Date", "Time ", "Accessories"
+                "Request ID", "Room name", "Date", "Time "
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -158,12 +136,12 @@ public class StudentWelcome extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(96, 513, Short.MAX_VALUE)
+                        .addGap(96, 495, Short.MAX_VALUE)
                         .addComponent(jButton3))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 574, Short.MAX_VALUE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 556, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jButton1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -184,11 +162,11 @@ public class StudentWelcome extends javax.swing.JFrame {
                 .addComponent(jButton3)
                 .addGap(1, 1, 1)
                 .addComponent(jLabel2)
-                .addGap(51, 51, 51)
+                .addGap(38, 38, 38)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
                 .addComponent(notice, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2)
