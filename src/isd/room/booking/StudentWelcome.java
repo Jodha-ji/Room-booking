@@ -195,6 +195,7 @@ public class StudentWelcome extends javax.swing.JFrame {
             try {
                 int req_id = (int) bookings.getValueAt(i, 0);
                 db.deleteBooking(req_id);
+                db.deleteAccessory(req_id);
                 showBookings();
                 notice.setText("Bookings cancelled sucessfully");
             } catch (SQLException ex) {

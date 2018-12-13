@@ -181,12 +181,14 @@ public class AdminWelcome extends javax.swing.JFrame {
             try {
                 String room_id = (String) rooms.getValueAt(i, 0);
                 db.deleteRoom(room_id);
+                db.deleteBooking(room_id);
                 showRooms();
                 notice.setText("Removed sucessfully");
             } catch (SQLException ex) {
                 Logger.getLogger(StudentWelcome.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed

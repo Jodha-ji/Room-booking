@@ -28,6 +28,7 @@ public final class DbHelper {
     private Statement getAccessories;
     private Statement deleteRooms;
     private Statement deleteBookings;
+    private Statement deleteAccessories;
     private Statement addRooms;
     private Statement addBookings;
     private Statement addAccessory;
@@ -150,6 +151,34 @@ public final class DbHelper {
             Logger.getLogger(DbHelper.class.getName()).log(Level.SEVERE, null, ex);
         }
     } 
+    
+    public void deleteBooking(String room_id) throws SQLException {
+        deleteBookings = conn.createStatement();
+        deleteAccessories = conn.createStatement();
+        String query2 = "Delete from accessory where req_id in (Select req_id from request where room_id = room_id)";
+        String query = "Delete from request where room_id = " + room_id;
+        
+        try {
+            deleteBookings.executeUpdate(query);
+            deleteAccessories.executeUpdate(query2);
+        }
+        catch (SQLException ex) {
+            Logger.getLogger(DbHelper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    } 
+    
+    
+    public void deleteAccessory (int req_id) throws SQLException {
+        deleteAccessories = conn.createStatement();
+        String query = "Delete from accessory where req_id = " + req_id;
+        
+        try {
+            deleteAccessories.executeUpdate(query);
+        }
+        catch (SQLException ex) {
+            Logger.getLogger(DbHelper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     public void deleteRoom(String room_id) throws SQLException {
         deleteRooms = conn.createStatement();
