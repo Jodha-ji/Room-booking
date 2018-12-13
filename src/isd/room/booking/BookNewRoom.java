@@ -77,7 +77,7 @@ public class BookNewRoom extends javax.swing.JFrame {
         setBackground(new java.awt.Color(255, 255, 0));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
-        rtype.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "LTs", "Acadamic", "Non-Acadamic" }));
+        rtype.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Lecture Halls", "Laboratories", "Non Acadamic" }));
         rtype.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rtypeActionPerformed(evt);
@@ -211,7 +211,7 @@ public class BookNewRoom extends javax.swing.JFrame {
                                 .addComponent(jLabel8)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(tomm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 21, Short.MAX_VALUE))
+                        .addGap(0, 22, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

@@ -74,7 +74,7 @@ public class AddRoom extends javax.swing.JFrame {
             }
         });
 
-        rtbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "LTs", "Acadamic", "Non-Acadamic" }));
+        rtbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Lecture Halls", "Laboratories", "Non Acadamic" }));
 
         jButton2.setText("<");
         jButton2.addActionListener(new java.awt.event.ActionListener() {

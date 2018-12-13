@@ -85,7 +85,7 @@
                               <Component id="tomm" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace min="0" pref="21" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="22" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
@@ -161,9 +161,9 @@
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="3">
-            <StringItem index="0" value="LTs"/>
-            <StringItem index="1" value="Acadamic"/>
-            <StringItem index="2" value="Non-Acadamic"/>
+            <StringItem index="0" value="Lecture Halls"/>
+            <StringItem index="1" value="Laboratories"/>
+            <StringItem index="2" value="Non Acadamic"/>
           </StringArray>
         </Property>
       </Properties>
